@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ex._12
 {
@@ -26,7 +27,6 @@ namespace ex._12
         {
             if (node.Data < Data)
             {
-                comparison++;
                 if (Left == null)
                 {
                     comparison++;
@@ -97,7 +97,10 @@ namespace ex._12
             transfer++;
         }
 
-        //метод возвращающий индекс опорного элемента
+        /// <summary>
+        /// метод возвращающий индекс опорного элемента
+        /// </summary>
+
         public static int Partition(int[] array, int minIndex, int maxIndex)
         {
             var pivot = minIndex - 1;
@@ -154,50 +157,81 @@ namespace ex._12
 
         static void Main(string[] args)
         {
-            Console.Write("n = ");
-            int n = int.Parse(Console.ReadLine());
-
-            int[] randomMas = new int[n];
-            Random random = new Random();
-            for (int i = 0; i < randomMas.Length; i++)
+            try
             {
-                randomMas[i] = random.Next(0, 100);
+                Console.WriteLine("Введите длину последовательности");
+                int n = int.Parse(Console.ReadLine());
+
+                int[] randomMas = new int[n];
+                Random random = new Random();
+                for (int i = 0; i < randomMas.Length; i++)
+                {
+                    randomMas[i] = random.Next(0, 100);
+                }
+
+                int[] vozrMas = new int[n];
+                randomMas.CopyTo(vozrMas, 0);
+                Array.Sort(vozrMas);
+                int[] ubMas = new int[n];
+                vozrMas.CopyTo(ubMas, 0);
+                Array.Reverse(ubMas);
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                Console.WriteLine("Random Array: {0} ", string.Join(" ", TreeSort(randomMas)));
+                sw.Stop();
+                Console.WriteLine($"Количество перестановок = {TreeNode.transfer}. Количество сравнений = {TreeNode.comparison}. Времени потребовалось {sw.Elapsed}");
+                TreeNode.transfer = 0; TreeNode.comparison = 0;
+
+
+                sw.Reset();
+                sw.Start();
+                Console.WriteLine("Vozrastanie Array: {0}", string.Join(" ", TreeSort(vozrMas)));
+                sw.Stop();
+                Console.WriteLine($"Количество перестановок = {TreeNode.transfer}. Количество сравнений = {TreeNode.comparison}. Времени потребовалось {sw.Elapsed}");
+                TreeNode.transfer = 0; TreeNode.comparison = 0;
+
+
+                sw.Reset();
+                sw.Start();
+                Console.WriteLine("Ubivanie Array: {0}", string.Join(" ", TreeSort(ubMas)));
+                sw.Stop();
+                Console.WriteLine($"Количество перестановок = {TreeNode.transfer}. Количество сравнений = {TreeNode.comparison}. Времени потребовалось {sw.Elapsed}");
+                TreeNode.transfer = 0; TreeNode.comparison = 0;
+
+                Console.WriteLine("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+
+                sw.Reset();
+                sw.Start();
+                Console.WriteLine("Random Array: {0} ", string.Join(" ", FastSort.QuickSort(randomMas)));
+                sw.Stop();
+                Console.WriteLine($"Количество перестановок = {FastSort.transfer}. Количество сравнений = {FastSort.comparison}. Времени потребовалось {sw.Elapsed}");
+                FastSort.transfer = 0; FastSort.comparison = 0;
+
+
+                sw.Reset();
+                sw.Start();
+                Console.WriteLine("Vozrastanie Array: {0}", string.Join(" ", FastSort.QuickSort(vozrMas)));
+                sw.Stop();
+                Console.WriteLine($"Количество перестановок = {FastSort.transfer}. Количество сравнений = {FastSort.comparison}. Времени потребовалось {sw.Elapsed}");
+                FastSort.transfer = 0; FastSort.comparison = 0;
+
+
+                sw.Reset();
+                sw.Start();
+                Console.WriteLine("Ubivanie Array: {0}", string.Join(" ", FastSort.QuickSort(ubMas)));
+                sw.Stop();
+                Console.WriteLine($"Количество перестановок = {FastSort.transfer}. Количество сравнений = {FastSort.comparison}. Времени потребовалось {sw.Elapsed}");
+                FastSort.transfer = 0; FastSort.comparison = 0;
             }
-
-            int[] vozrMas = new int[n];
-            randomMas.CopyTo(vozrMas, 0);
-            Array.Sort(vozrMas);
-            int[] ubMas = new int[n];
-            vozrMas.CopyTo(ubMas, 0);
-            Array.Reverse(ubMas);
-
-
-            Console.WriteLine("Random Array: {0} ", string.Join(" ", TreeSort(randomMas)));
-            Console.WriteLine($"Количество перестановок = {TreeNode.transfer}. Количество сравнений = {TreeNode.comparison}");
-            TreeNode.transfer = 0; TreeNode.comparison = 0;
-
-            Console.WriteLine("Vozrastanie Array: {0}", string.Join(" ", TreeSort(vozrMas)));
-            Console.WriteLine($"Количество перестановок = {TreeNode.transfer}. Количество сравнений = {TreeNode.comparison}");
-            TreeNode.transfer = 0; TreeNode.comparison = 0;
-
-            Console.WriteLine("Ubivanie Array: {0}", string.Join(" ", TreeSort(ubMas)));
-            Console.WriteLine($"Количество перестановок = {TreeNode.transfer}. Количество сравнений = {TreeNode.comparison}");
-            TreeNode.transfer = 0; TreeNode.comparison = 0;
-
-            Console.WriteLine("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-
-
-            Console.WriteLine("Random Array: {0} ", string.Join(" ", FastSort.QuickSort(randomMas)));
-            Console.WriteLine($"Количество перестановок = {FastSort.transfer}. Количество сравнений = {FastSort.comparison}");
-            FastSort.transfer = 0; FastSort.comparison = 0;
-
-            Console.WriteLine("Vozrastanie Array: {0}", string.Join(" ", FastSort.QuickSort(vozrMas)));
-            Console.WriteLine($"Количество перестановок = {FastSort.transfer}. Количество сравнений = {FastSort.comparison}");
-            FastSort.transfer = 0; FastSort.comparison = 0;
-
-            Console.WriteLine("Ubivanie Array: {0}", string.Join(" ", FastSort.QuickSort(ubMas)));
-            Console.WriteLine($"Количество перестановок = {FastSort.transfer}. Количество сравнений = {FastSort.comparison}");
-            FastSort.transfer = 0; FastSort.comparison = 0;
+            catch (System.FormatException)
+            {
+                Console.WriteLine("Некорректно задана длина последовательности. Завершение работы программы");
+            }
+            catch (System.OverflowException)
+            {
+                Console.WriteLine("Некорректно задана длина последовательности. Завершение работы программы");
+            }
         }
     }
 }
